@@ -3,18 +3,29 @@ import Vasttrafik from '../api/Vasttrafik'
 
 export default class LoadData extends Component {
   api = new Vasttrafik()
+  defaults = {
+    stopBoard: {
+      excludeDR: 1,
+    },
+  }
+
   getLocations = async () => {
     const locations = await this.api.getData('/location.name', { input: 'ols' })
     console.log(locations)
   }
 
   getBoard = async () => {
-    const board = await this.api.getData('/departureBoard', {
-      id: '9022014008000000',
-      date: '2020-08-29',
-      time: '05:00',
-      useVas: 0,
-    })
+    const board = await this.api.getData(
+      '/departureBoard',
+      Object.assign(
+        {
+          id: '9022014008000000',
+          date: '2020-08-31',
+          time: '09:00',
+        },
+        this.defaults.stopBoard
+      )
+    )
     console.log(board)
   }
 
