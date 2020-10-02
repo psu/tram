@@ -1,10 +1,11 @@
 import axios from 'axios'
+import { vasttrafik } from '../secrets.js'
 
 export default class Vasttrafik {
   config = {
-    apiKey: 'fhvQUAMPfDxf5wshkfu_I1JO6tMa',
-    apiSecret: '3y80UKx2OMuhBGDryjQUNLA3fMYa',
-    clientID: 'pontus-dev-200829',
+    apiKey: vasttrafik.apiKey,
+    apiSecret: vasttrafik.apiSecret,
+    clientID: vasttrafik.clientID,
     tokenURL: 'https://api.vasttrafik.se/token',
     dataURL: 'https://api.vasttrafik.se/bin/rest.exe/v2',
     dataFormat: 'json',
