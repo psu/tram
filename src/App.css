@@ -1,0 +1,21 @@
+body {
+  font-family: sans-serif;
+}
+
+a:link,
+a:visited {
+  color: black;
+}
+a:focus {
+  color: red;
+}
+
+/* .tram-container,
+.stop-board,
+.line-list,
+.stop-list,
+.stop-search {
+  margin: 1rem;
+  padding: 1rem;
+  border: 1px dashed gray;
+} */

@@ -9,7 +9,7 @@ export default class LoadData extends Component {
     },
   }
 
-  getLocations = async () => {
+  getLocationsBy = async () => {
     const locations = await this.api.getData('/location.name', { input: 'ols' })
     console.log(locations)
   }
