@@ -19,13 +19,25 @@ class App extends Component {
 
   onSelectStop = async stop => {
     const response = await this.api.getBoard(stop.id)
+    // enrich array of departures with timestamp and calcTime (from rtTime or time)
+    const lines = response.Departure.map(line => {
+      const time = line.rtTime ? line.rtTime : line.time
+      const date = line.rtDate ? line.rtDate : line.date
+      const timestamp = new Date(`${date} ${time}`).getTime()
+      return {
+        ...line,
+        calcTime: time,
+        calcDate: date,
+        calcTimestamp: timestamp,
+      }
+    }).sort((a, b) => a.calcTimestamp - b.calcTimestamp)
     this.setState({
       stop: {
         name: stop.name,
         date: response.serverdate,
         time: response.servertime,
       },
-      lineList: response.Departure,
+      lineList: lines,
     })
   }
 

@@ -1,0 +1,30 @@
+.lineList {
+  padding: 0;
+}
+
+.lineListItem {
+  list-style: none;
+  padding: 0.8em;
+  background-color: #333;
+  color: white;
+}
+.lineListItem:hover {
+  background-color: #444;
+}
+
+.itemBadge {
+  padding: 0.3em 0.5em;
+  border-radius: 0.4em;
+  text-align: center;
+  font-weight: bold;
+  font-size: smaller;
+}
+.lineTypeTRAM > .itemBadge {
+  padding: 0.3em 0.8em;
+}
+.itemBadge,
+.itemTime,
+.itemDirection,
+.itemTrack {
+  margin-right: 0.5em;
+}
