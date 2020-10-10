@@ -26,10 +26,10 @@ export default class Vasttrafik {
   }
 
   getBoard = async stopId => {
-    const departures = await this.getData(
-      '/departureBoard',
-      Object.assign({ id: stopId }, this.apiDefaults.stopBoard)
-    )
+    const departures = await this.getData('/departureBoard', {
+      id: stopId,
+      ...this.apiDefaults.stopBoard,
+    })
     return departures.DepartureBoard
   }
 
@@ -41,10 +41,8 @@ export default class Vasttrafik {
 
     // get call to dataURL + service path, default format to 'json' (this.config.dataFormat)
     const response = await axios.get(this.config.dataURL + path, {
-      params: Object.assign({ format: this.config.dataFormat }, params),
-      headers: {
-        Authorization: `Bearer ${this.bearerToken}`,
-      },
+      params: { format: this.config.dataFormat, ...params },
+      headers: { Authorization: `Bearer ${this.bearerToken}` },
     })
 
     return response.data
