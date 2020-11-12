@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { vasttrafik } from '../secrets.js'
 
+axios.defaults.headers.common['Accept-Language'] = ''
+
 export default class Vasttrafik {
   config = {
     apiKey: vasttrafik.apiKey,
@@ -11,8 +13,17 @@ export default class Vasttrafik {
     dataFormat: 'json',
   }
   apiDefaults = {
+    headers: {
+      'Accept-Language': null,
+    },
     stopBoard: {
       excludeDR: 1,
+      timeSpan: 61,
+      maxDeparturesPerLine: 1,
+    },
+    nearbyStops: {
+      maxDist: 1500,
+      maxNo: 300,
     },
   }
   bearerToken = ''
@@ -25,10 +36,23 @@ export default class Vasttrafik {
     return locations.LocationList.StopLocation
   }
 
-  getBoard = async stopId => {
+  findStopsByCoords = async (searchCoords, params = {}) => {
+    const locations = await this.getData('/location.nearbystops', {
+      ...this.apiDefaults.nearbyStops,
+      ...params,
+      originCoordLat: searchCoords.lat,
+      originCoordLong: searchCoords.long,
+    })
+    return locations.LocationList.StopLocation.filter(
+      s => s.track === undefined
+    )
+  }
+
+  getBoard = async (stopId, params = {}) => {
     const departures = await this.getData('/departureBoard', {
-      id: stopId,
       ...this.apiDefaults.stopBoard,
+      ...params,
+      id: stopId,
     })
     return departures.DepartureBoard
   }
@@ -42,7 +66,10 @@ export default class Vasttrafik {
     // get call to dataURL + service path, default format to 'json' (this.config.dataFormat)
     const response = await axios.get(this.config.dataURL + path, {
       params: { format: this.config.dataFormat, ...params },
-      headers: { Authorization: `Bearer ${this.bearerToken}` },
+      headers: {
+        Authorization: `Bearer ${this.bearerToken}`,
+        ...this.apiDefaults.headers,
+      },
     })
 
     return response.data

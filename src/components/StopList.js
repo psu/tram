@@ -4,7 +4,7 @@ export default class StopList extends Component {
   render() {
     const stopsHtml = this.props.list.map(stop => {
       return (
-        <li key={stop.idx}>
+        <li key={stop.id}>
           <a
             href={`#stop=${stop.id}`}
             onClick={() => this.props.onSelect(stop)}
